@@ -56,7 +56,7 @@ module.exports = {
         userEmail: `user${i + 1}@tiadmin-test.com.tw`,
         empNo: `TW00${i + 1}`,
         isBanned: 0,
-        isAdmin: 1,
+        isAdmin: 0,
         createdAt: new Date(),
         updatedAt: null
       })), {})
