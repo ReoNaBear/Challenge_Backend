@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'LoginRecord',
     tableName: 'LoginRecords',
+    updatedAt: false,
   });
   return LoginRecord;
 };

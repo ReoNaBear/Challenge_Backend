@@ -1,4 +1,4 @@
-const { User, UserAuth } = require('../models')
+const { User, UserAuth, LoginRecord} = require('../models')
 const bcrypt = require('bcryptjs')
 const helper = require('../_helpers')
 const jwt = require('jsonwebtoken')
@@ -14,14 +14,38 @@ const userServices = {
       if (!userAuth) {
         throw new Error('User not found!')
       } else if (!bcrypt.compareSync(password, userAuth.password)) {
-        throw new Error('Incorrect Account or Password!')
-      } else {
-        const user = await User.findOne({ where: { userAuthId: userAuth.userAuthId }, attributes: { exclude: ['userAuthId', 'seqNo', 'createdAt', 'updateAt'] } },)
-        result = user.toJSON()
+        const user = await User.findOne({ where: { userAuthId: userAuth.userAuthId }},)
+        await LoginRecord.create({
+          userId: user.userId,
+          isLogin: 0,
+          createdAt: Date.now()
+        })
+        const errorRecords = await LoginRecord.findAll({ where: { userId: user.userId, isLogin: 0 }})
+        if( errorRecords.length >= 4 ){
+          const banUser = await User.findOne({ where: { userAuthId: userAuth.userAuthId }})
+          await banUser.update({
+            isBanned: 1,
+          })
+          throw new Error('User has been Banned!')
+        } else {
+          throw new Error('Incorrect Account or Password!')
+        }
+        
       }
+      const user = await User.findOne({ where: { userAuthId: userAuth.userAuthId }, attributes: { exclude: ['userAuthId', 'seqNo', 'createdAt', 'updateAt'] } },)
+      result = user.toJSON()
+      await LoginRecord.create({
+        userId: user.userId,
+        isLogin: 1,
+        createdAt: Date.now()
+      })
       if (result) {
         const payload = { userAuthId: userAuth.userAuthId }
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '30d' })
+        const errorRecords = LoginRecord.findAll({ where: { userId: user.userId, isLogin: 0 }, attributes: ['id']})
+        if (errorRecords){
+          await LoginRecord.destroy({ where: { userId: user.userId, isLogin: 0 }})
+        }
         return cb(null, { token, user: result })
       }
     } catch (err) {
