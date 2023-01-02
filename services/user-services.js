@@ -11,7 +11,6 @@ const userServices = {
         throw new Error('All fields are required!')
       }
       const userAuth = await UserAuth.findOne({ where: { account: account } })
-      console.log(userAuth);
       if (!userAuth) {
         throw new Error('User not found!')
       } else if (!bcrypt.compareSync(password, userAuth.password)) {
@@ -29,9 +28,20 @@ const userServices = {
       return cb(err)
     }
   },
+  getCurrentUser: async (req, cb) => {
+    try {
+      console.log(helper.getUser(req));
+      const userId = helper.getUser(req).userId
+      const userData = await User.findByPk(userId, {})
+      const user = userData.toJSON()
+      delete user.password
+      return cb(null, user)
+    } catch (err) {
+      cb(err)
+    }
+  },
   putPassword: async (req, cb) => {
     try {
-      const userId = helper.getUser(req).userId
       const userAuthId = helper.getUser(req).userAuthId
       const { oldPassword, newPassword } = req.body
       if (!oldPassword || !newPassword) throw new Error('All fields are required!')
