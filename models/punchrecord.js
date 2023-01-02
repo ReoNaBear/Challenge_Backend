@@ -19,11 +19,15 @@ module.exports = (sequelize, DataTypes) => {
   }
   PunchRecord.init({
     userId: DataTypes.UUID,
-    date: DataTypes.DATEONLY,
-    time: DataTypes.TIME(6)
+    date: DataTypes.STRING,
+    time: DataTypes.STRING,
+
   }, {
     sequelize,
     modelName: 'PunchRecord',
+    tableName: 'PunchRecords',
+    createdAt: false,
+    updatedAt: false,
   });
   return PunchRecord;
 };
