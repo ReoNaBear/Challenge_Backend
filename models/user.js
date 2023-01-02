@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.hasMany(models.PunchRecord, { foreignKey: 'userId' })
       User.hasMany(models.LoginRecord, { foreignKey: 'userId' })
+      User.hasMany(models.PresentRecord, { foreignKey: 'userId' })
       User.belongsTo(models.UserAuth, { foreignKey: 'userAuthId' })
     }
   }
