@@ -54,7 +54,6 @@ const userServices = {
   },
   getCurrentUser: async (req, cb) => {
     try {
-      console.log(helper.getUser(req));
       const userId = helper.getUser(req).userId
       const userData = await User.findByPk(userId, {})
       const user = userData.toJSON()
