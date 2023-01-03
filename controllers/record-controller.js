@@ -5,6 +5,9 @@ const recordController = {
     recordServices.postPunchRecord(req, (err, data) =>
       err ? next(err) : res.status(200).json({ status: 'success', data }))
   },
-
+  qrcodePunchRecord: (req, res, next) => {
+    recordServices.qrcodePunchRecord(req, (err, data) =>
+      err ? next(err) : res.status(200).json({ status: 'success', data }))
+  },
 }
 module.exports = recordController

@@ -6,6 +6,6 @@ const { authenticated, authenticatedUser } = require('../middleware/api-auth')
 router.use(authenticated, authenticatedUser)
 
 router.post('/punch_record', recordController.postPunchRecord)
-
+router.post('/qrcode_punch_record', recordController.qrcodePunchRecord)
 
 module.exports = router
