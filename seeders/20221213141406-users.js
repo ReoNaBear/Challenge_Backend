@@ -26,7 +26,7 @@ module.exports = {
       Array.from({ length: 5 }).map((_, i) => ({
         seqNo: i + 2,
         account: `user${i + 1}`,
-        password: bcrypt.hashSync('tiadmin', bcrypt.genSaltSync(10), null),
+        password: bcrypt.hashSync('titaner', bcrypt.genSaltSync(10), null),
         userAuthId: crypto.randomUUID(),
         createdAt: new Date(),
         updatedAt: null
@@ -41,7 +41,7 @@ module.exports = {
         userId: crypto.randomUUID(),
         userAuthId: userAuthRows[0].userAuthId,
         userName: 'admin',
-        userEmail: 'admin@tiadmin-test.com.tw',
+        userEmail: 'admin@titan-test.com.tw',
         empNo: 'TW000',
         isBanned: 0,
         isAdmin: 1,
@@ -53,7 +53,7 @@ module.exports = {
         userId: crypto.randomUUID(),
         userAuthId: userAuthRows[i + 1].userAuthId,
         userName: `user${i + 1}`,
-        userEmail: `user${i + 1}@tiadmin-test.com.tw`,
+        userEmail: `user${i + 1}@titan-test.com.tw`,
         empNo: `TW00${i + 1}`,
         isBanned: 0,
         isAdmin: 0,
