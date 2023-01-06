@@ -1,13 +1,31 @@
-const { PunchRecord, PresentRecord, QRcodeAuth } = require('../models')
+const { PunchRecord, PresentRecord, QRcodeAuth, Location } = require('../models')
 const helper = require('../_helpers')
 const moment = require('moment');
 const { DATE } = require('sequelize');
+const Distance = require('geo-distance');
 const crypto = require("crypto");
 const recordServices = {
   postPunchRecord: async (req, cb) => {
     try {
       const userId = helper.getUser(req).userId
       if (!userId) throw new Error('Please login first!')
+      const { companyCode, latitude, longitude } = req.body
+      //距離判斷
+      //companyCode先固定為TW
+      const location = await Location.findOne({ where: {companyCode: "TW"}})
+      const targetLocation = { 
+        lat: location.latitude,
+        lon: location.longitude
+      }
+      const currentLocation = {
+        lat: latitude,
+        lon: longitude
+      }
+      const distance = Distance.between(targetLocation, currentLocation)
+      if (distance > Distance('0.4 km')) {
+        throw new Error('Out of Distance!')
+      }
+      
       const dateFormat = "YYYY-MM-DD"
       const timeFormat = "YYYY-MM-DD HH:mm:ss"
       //先固定為台北
