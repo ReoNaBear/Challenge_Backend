@@ -1,7 +1,9 @@
-const { User, UserAuth, LoginRecord} = require('../models')
+const { User, UserAuth, LoginRecord, PresentRecord } = require('../models')
 const bcrypt = require('bcryptjs')
 const helper = require('../_helpers')
 const jwt = require('jsonwebtoken')
+const moment = require('moment');
+
 const userServices = {
   signIn: async (req, cb) => {
     try {
@@ -28,11 +30,11 @@ const userServices = {
           })
           throw new Error('User has been Banned!')
         } else {
-          throw new Error('Incorrect Account or Password!')
+          throw new Error(`Incorrect Account or Password! Error Time ${errorRecords.length}`)
         }
-        
       }
       const user = await User.findOne({ where: { userAuthId: userAuth.userAuthId }, attributes: { exclude: ['userAuthId', 'seqNo', 'createdAt', 'updateAt'] } },)
+      if(user.isBanned === 1) throw new Error('User has been Banned!')
       result = user.toJSON()
       await LoginRecord.create({
         userId: user.userId,
@@ -56,9 +58,37 @@ const userServices = {
     try {
       const userId = helper.getUser(req).userId
       const userData = await User.findByPk(userId, {})
+     
       const user = userData.toJSON()
       delete user.password
       return cb(null, user)
+    } catch (err) {
+      cb(err)
+    }
+  },
+  getCurrentPunchData: async (req, cb) => {
+    try {
+      const userId = helper.getUser(req).userId
+      const dateFormat = "YYYY-MM-DD"
+      const timeFormat = "HH:mm:ss"
+      const timezone = "Asia/Taipei"
+      const now = new moment().utc().tz("Europe/London").tz(timezone);
+      let date = now.clone().subtract(5, "hours").format(dateFormat);
+      let presentData = await PresentRecord.findOne({ where: { userId: userId, date: date }})
+      let duration = 0
+      let workTime = null
+      let offWorkTime = null
+      if(presentData) {
+        workTime = moment.tz(presentData.work, timezone)
+        offWorkTime = moment.tz(presentData.offWork, timezone)
+        duration = offWorkTime.diff(workTime, 'minutes')
+        workTime = workTime.clone().format(timeFormat);
+        offWorkTime = offWorkTime.clone().format(timeFormat);
+      }
+      if(presentData) {
+      }
+      const result = { workTime, offWorkTime, duration }
+      return cb(null, result)
     } catch (err) {
       cb(err)
     }
