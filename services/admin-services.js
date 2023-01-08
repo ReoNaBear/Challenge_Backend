@@ -24,7 +24,7 @@ const adminServices = {
   },
   getUsers: async (req, cb) => {
     try {
-      const date = helper.getYesterday()
+      const date = helper.getPreviosday()
       const users = await User.findAll({
         raw: true,
         nest: true,
@@ -52,7 +52,11 @@ const adminServices = {
           users[i].presentRecord= record
         }
       }
-      const result = users.map(user => JSON.parse(JSON.stringify(user)))
+      let usersData = users.map(user => JSON.parse(JSON.stringify(user)))
+      const result = {
+        date: date,
+        users: usersData
+      }
       return cb(null, result)
     } catch (err) {
       cb(err)
