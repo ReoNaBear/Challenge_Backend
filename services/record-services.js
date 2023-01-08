@@ -30,10 +30,10 @@ const recordServices = {
       const timeFormat = "YYYY-MM-DD HH:mm:ss"
       //先固定為台北
       const timezone = "Asia/Taipei"
-      const now = new moment().utc().tz("Europe/London").tz(timezone);
+      const now = new moment().utc().tz("Europe/London").tz(timezone)
       //每天五點到隔天五點
-      let date = now.clone().subtract(5, "hours").format(dateFormat);
-      let time = now.format(timeFormat).toString();
+      let date = now.clone().subtract(5, "hours").format(dateFormat)
+      let time = now.format(timeFormat).toString()
       if (!date || !time) throw new Error('Time Error! Please contact your administrator')
       const postPunchRecord = await PunchRecord.create({
         userId: userId,
@@ -142,6 +142,13 @@ const recordServices = {
         })
         return cb(null, result)
       }
+    } catch (err) {
+      cb(err)
+    }
+  },
+  getMonthRecord: async (req, cb) => {
+    try {
+      
     } catch (err) {
       cb(err)
     }
