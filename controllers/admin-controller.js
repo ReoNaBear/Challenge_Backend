@@ -13,5 +13,9 @@ const adminController = {
     adminServices.updateBannedStatus(req, (err, data) =>
       err ? next(err) : res.status(200).json({ status: 'success', data }))
   },
+  updatePunchStatus: (req, res, next) => {
+    adminServices.updatePunchStatus(req, (err, data) =>
+      err ? next(err) : res.status(200).json({ status: 'success', data }))
+  },
 }
 module.exports = adminController

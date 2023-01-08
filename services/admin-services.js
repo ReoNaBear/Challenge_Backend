@@ -81,5 +81,42 @@ const adminServices = {
       cb(err)
     }
   },
+  updatePunchStatus: async (req, cb) => {
+    try {
+      const { userId, status, date } = req.body
+      let punch = 0
+      if(status) {
+        punch = 1
+      }
+      else {
+        punch = 0
+      }
+      if (!userId && !date) throw new Error('System Error! Please Contact Administrator')
+      const user = await User.findOne({ where: { userId: userId }},)
+      if (!user) throw new Error("User not found!")
+      const record = await PresentRecord.findOne({
+        where: { date: date, userId: userId}
+      })
+      let result
+      if (!record) {
+        result = await PresentRecord.create({
+          userId: userId,
+          date: date,
+          work: `${date} 08:00:00`,
+          offWork: `${date} 17:00:00`,
+          status: punch,
+          createdAt: Date.now(),
+        })
+      } else {
+        result = await record.update({
+          status: punch,
+          updatedAt: Date.now(),
+        })
+      }
+      return cb(null, result)
+    } catch (err) {
+      cb(err)
+    }
+  },
 }
 module.exports = adminServices
