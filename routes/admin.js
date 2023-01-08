@@ -6,6 +6,7 @@ const { authenticated, authenticatedAdmin } = require('../middleware/api-auth')
 router.use(authenticated, authenticatedAdmin)
 
 router.get('/qrcode', adminController.getQRcode)
+router.get('/users', adminController.getUsers)
 
 
 module.exports = router
