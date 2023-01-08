@@ -53,7 +53,29 @@ const adminServices = {
         }
       }
       const result = users.map(user => JSON.parse(JSON.stringify(user)))
-      console.log(result);
+      return cb(null, result)
+    } catch (err) {
+      cb(err)
+    }
+  },
+  updateBannedStatus: async (req, cb) => {
+    try {
+      const { userId, status } = req.body
+      let isBanned = 0
+      if(status) {
+        isBanned = 0
+      }
+      else {
+        isBanned = 1
+      }
+      if (!userId) throw new Error('System Error! Please Contact Administrator')
+      const user = await User.findOne({ where: { userId: userId }},)
+      if (!user) throw new Error("User not found!")
+      if (user.isAdmin === 1 && isBanned === 1) throw new Error("You Cannot Ban Admin!")
+      let result = await user.update({
+        isBanned: isBanned
+      })
+      result = result.toJSON()
       return cb(null, result)
     } catch (err) {
       cb(err)

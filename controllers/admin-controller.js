@@ -9,5 +9,9 @@ const adminController = {
     adminServices.getUsers(req, (err, data) =>
       err ? next(err) : res.status(200).json({ status: 'success', data }))
   },
+  updateBannedStatus: (req, res, next) => {
+    adminServices.updateBannedStatus(req, (err, data) =>
+      err ? next(err) : res.status(200).json({ status: 'success', data }))
+  },
 }
 module.exports = adminController

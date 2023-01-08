@@ -7,6 +7,7 @@ router.use(authenticated, authenticatedAdmin)
 
 router.get('/qrcode', adminController.getQRcode)
 router.get('/users', adminController.getUsers)
+router.put('/update_banned_status', adminController.updateBannedStatus)
 
 
 module.exports = router
