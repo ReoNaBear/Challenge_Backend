@@ -158,7 +158,6 @@ const recordServices = {
       let month = helper.getMonth()
       let totalDays = today.substring(9,11) - 1
       let workOffDays = helper.getWorkOffDay()
-      console.log(workOffDays);
       let count = workOffDays.filter(x => moment(x.date).isBefore(today, "day")).length
       let totalWorkDays = totalDays - count
       

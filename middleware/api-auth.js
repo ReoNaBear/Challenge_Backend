@@ -14,7 +14,6 @@ const authenticated = (req, res, next) => {
 //避免admin登入前台
 const authenticatedUser = (req, res, next) => {
   if (helpers.getUser(req)) {
-    console.log(helpers.getUser(req))
     if (helpers.getUser(req).isAdmin === 0) { return next() }
     return res.status(403).json({ message: '請切換成一般帳戶' })
   } else {

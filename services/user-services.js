@@ -96,17 +96,34 @@ const userServices = {
   putPassword: async (req, cb) => {
     try {
       const userAuthId = helper.getUser(req).userAuthId
-      const { oldPassword, newPassword } = req.body
-      if (!oldPassword || !newPassword) throw new Error('All fields are required!')
-      if (newPassword && newPassword.length < 7) throw new Error('Passwords must have at least 7 characters')
       if (!userAuthId) throw new Error("User not found!")
-      const userAuth = await UserAuth.findByPk(userAuthId, {})
-      if (!userAuth) throw new Error("Auth not found!")
-      const putPassword = await userAuth.update({
-        password: await bcrypt.hash(newPassword, 10)
-      })
-      const result = putPassword.toJSON()
-      return cb(null, result)
+      const user = await User.findOne({where: {userAuthId: userAuthId}})
+      if (!user) throw new Error("User not found!")
+      if(user.isAdmin === 0) {
+        const { oldPassword, newPassword } = req.body
+        if (!oldPassword || !newPassword) throw new Error('All fields are required!')
+        const userAuth = await UserAuth.findByPk(userAuthId, {})
+        if (!userAuth) throw new Error("Auth not found!")
+        if (newPassword.length < 7) throw new Error('Passwords must have at least 7 characters')
+        const putPassword = await userAuth.update({
+          password: await bcrypt.hash(newPassword, 10)
+        })
+        const result = putPassword.toJSON()
+        return cb(null, result)
+      } else {
+        const { userId, newPassword } = req.body
+        if (!newPassword) throw new Error('All fields are required!')
+        const user = await User.findOne({where: { userId: userId}})
+        if (!user) throw new Error("User not found!")
+        const userAuth = await UserAuth.findByPk(user.userAuthId, {})
+        if (!userAuth) throw new Error("Auth not found!")
+        if ( newPassword.length < 7) throw new Error('Passwords must have at least 7 characters')
+        const putPassword = await userAuth.update({
+          password: await bcrypt.hash(newPassword, 10)
+        })
+        const result = putPassword.toJSON()
+        return cb(null, result)
+      }
     } catch (err) {
       cb(err)
     }

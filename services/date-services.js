@@ -12,7 +12,7 @@ const dateServices = {
       let saveData = []
       let year = helper.getYear()
       for (let i = 0; i < data.length; i++) {
-        if(data[i].date.substring(0,4) === year && data[i].isholiday === "否"){
+        if(data[i].date.substring(0,4) === year && data[i].isholiday !== "否"){
           data[i].date = moment(data[i].date).format(dateFormat)
           saveData.push(data[i])
         }
