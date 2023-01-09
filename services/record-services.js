@@ -1,7 +1,7 @@
-const { PunchRecord, PresentRecord, QRcodeAuth, Location } = require('../models')
+const { User, PunchRecord, PresentRecord, QRcodeAuth, Location } = require('../models')
 const helper = require('../_helpers')
 const moment = require('moment');
-const { DATE } = require('sequelize');
+const { Op } = require('sequelize');
 const Distance = require('geo-distance');
 const crypto = require("crypto");
 const recordServices = {
@@ -148,7 +148,34 @@ const recordServices = {
   },
   getMonthRecord: async (req, cb) => {
     try {
+      const userId = helper.getUser(req).userId
+      if (!userId) throw new Error('Please login first!')
+      const user = await User.findOne({ where: { userId: userId }},)
+      if (!user) throw new Error('User not found!')
       
+      //扣掉今天
+      let today = helper.getToday()
+      let month = helper.getMonth()
+      let totalDays = today.substring(9,11) - 1
+      let workOffDays = helper.getWorkOffDay()
+      console.log(workOffDays);
+      let count = workOffDays.filter(x => moment(x.date).isBefore(today, "day")).length
+      let totalWorkDays = totalDays - count
+      
+      let targetId = userId
+      if(user.isAdmin === 1){
+        targetId = req.body.userId
+      }
+      let records = await PresentRecord.findAll({
+        where: {userId: targetId, date: {[Op.like]: `%${month}%`}, status: 1}
+      })
+      records = await records.filter(x => workOffDays.find(y => y.date === x.date) !== false )
+      let noneAttendDays = totalWorkDays - records.length
+      const result = {
+        totalWorkDays: totalWorkDays,
+        noneAttendDays: noneAttendDays
+      }
+      return cb(null, result)
     } catch (err) {
       cb(err)
     }

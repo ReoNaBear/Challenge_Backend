@@ -9,5 +9,9 @@ const recordController = {
     recordServices.qrcodePunchRecord(req, (err, data) =>
       err ? next(err) : res.status(200).json({ status: 'success', data }))
   },
+  getMonthRecord: (req, res, next) => {
+    recordServices.getMonthRecord(req, (err, data) =>
+      err ? next(err) : res.status(200).json({ status: 'success', data }))
+  },
 }
 module.exports = recordController

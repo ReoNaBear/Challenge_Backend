@@ -7,12 +7,13 @@ const dateServices = {
     try {
       const url = "https://data.ntpc.gov.tw/api/datasets/308DCD75-6434-45BC-A95F-584DA4FED251/json?page=0&size=10000"
       const response = await axios.get(url)
+      const dateFormat = "YYYY-MM-DD"
       const data = response.data
       let saveData = []
       let year = helper.getYear()
       for (let i = 0; i < data.length; i++) {
-        if(data[i].date.substring(0,4) === year){
-          data[i].date = data[i].date.replaceAll("/", "-")
+        if(data[i].date.substring(0,4) === year && data[i].isholiday === "否"){
+          data[i].date = moment(data[i].date).format(dateFormat)
           saveData.push(data[i])
         }
       }
