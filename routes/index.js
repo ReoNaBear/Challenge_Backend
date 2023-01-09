@@ -11,6 +11,6 @@ module.exports = (app) => {
   app.use('/api/records', record)
   app.use('/api/users', user)
   app.use('/api/date', date)
-  app.use('/api/admins', admin)
+  app.use('/api/admin', admin)
   app.use('/', apiErrorHandler)
 }
