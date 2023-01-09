@@ -14,5 +14,4 @@ router.put('/password', userController.putPassword)
 router.put('/update_banned_status', adminController.updateBannedStatus)
 router.put('/update_punch_status', adminController.updatePunchStatus)
 
-
 module.exports = router

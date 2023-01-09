@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 const bcrypt = require('bcryptjs')
-const crypto = require("crypto");
+const crypto = require('crypto')
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  async up (queryInterface, Sequelize) {
     /**
      * Add seed commands here.
      *
@@ -32,7 +32,7 @@ module.exports = {
         updatedAt: null
       })), {})
     const userAuths = await queryInterface.sequelize.query(
-      `SELECT seqNO,userAuthId FROM UserAuths ORDER BY seqNO ASC;`
+      'SELECT seqNO,userAuthId FROM UserAuths ORDER BY seqNO ASC;'
     )
     const userAuthRows = userAuths[0]
     if (userAuthRows) {
@@ -63,7 +63,7 @@ module.exports = {
     }
   },
 
-  async down(queryInterface, Sequelize) {
+  async down (queryInterface, Sequelize) {
     /**
      * Add commands to revert seed here.
      *
@@ -73,4 +73,4 @@ module.exports = {
     await queryInterface.bulkDelete('UserAuths', null, {})
     await queryInterface.bulkDelete('Users', null, {})
   }
-};
+}

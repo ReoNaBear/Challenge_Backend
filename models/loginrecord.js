@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 const {
   Model
-} = require('sequelize');
+} = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class LoginRecord extends Model {
     /**
@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
+    static associate (models) {
       LoginRecord.belongsTo(models.User, {
         through: models.LoginRecord,
         foreignKey: 'userId',
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'LoginRecord',
     tableName: 'LoginRecords',
-    updatedAt: false,
-  });
-  return LoginRecord;
-};
+    updatedAt: false
+  })
+  return LoginRecord
+}

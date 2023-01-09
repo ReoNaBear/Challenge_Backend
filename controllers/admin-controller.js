@@ -1,7 +1,7 @@
 const adminServices = require('../services/admin-services')
 const recordServices = require('../services/record-services')
 const adminController = {
-  //取得打卡QR code
+  // 取得打卡QR code
   getQRcode: (req, res, next) => {
     adminServices.getQRcode(req, (err, data) =>
       err ? next(err) : res.status(200).json({ status: 'success', data }))
@@ -21,6 +21,6 @@ const adminController = {
   updatePunchStatus: (req, res, next) => {
     adminServices.updatePunchStatus(req, (err, data) =>
       err ? next(err) : res.status(200).json({ status: 'success', data }))
-  },
+  }
 }
 module.exports = adminController

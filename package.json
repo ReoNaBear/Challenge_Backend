@@ -6,7 +6,7 @@
   "scripts": {
     "start": "set NODE_ENV=development && node app.js",
     "dev": "set NODE_ENV=development && nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint --fix --ext .js,.jsx ."
   },
   "keywords": [],
   "author": "",
@@ -30,5 +30,13 @@
     "passport-local": "^1.0.0",
     "sequelize": "^6.27.0",
     "sequelize-cli": "^6.5.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.31.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.6.0",
+    "eslint-plugin-promise": "^6.1.1"
   }
 }

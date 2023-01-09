@@ -4,12 +4,12 @@ const { User, UserAuth } = require('../models')
 const JWTStrategy = passportJWT.Strategy
 const ExtractJWT = passportJWT.ExtractJwt
 
-let jwtOptions = {}
+const jwtOptions = {}
 jwtOptions.jwtFromRequest = ExtractJWT.fromAuthHeaderAsBearerToken()
 jwtOptions.secretOrKey = process.env.JWT_SECRET
 passport.use(new JWTStrategy(jwtOptions, async (jwtPayload, done) => {
   try {
-    console.log(jwtPayload.userAuthId);
+    console.log(jwtPayload.userAuthId)
     const userAuth = await UserAuth.findByPk(jwtPayload.userAuthId)
     if (!userAuth) {
       return done(null, false)
@@ -18,14 +18,12 @@ passport.use(new JWTStrategy(jwtOptions, async (jwtPayload, done) => {
     if (!user) {
       return done(null, false)
     }
-    console.log(user);
+    console.log(user)
     done(null, user)
   } catch (err) {
     console.warn(err)
   }
 }))
-
-
 
 passport.serializeUser((user, cb) => {
   cb(null, user.userAuthId)
@@ -35,7 +33,7 @@ passport.deserializeUser((userAuthId, cb) => {
     include: [
 
     ]
-  }).then(userAuth => {
+  }).then((userAuth) => {
     userAuth = userAuth.toJSON()
     return cb(null, userAuth)
   })

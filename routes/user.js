@@ -9,6 +9,4 @@ router.use(authenticatedUser)
 router.get('/current_punch_data', userController.getCurrentPunchData)
 router.put('/password', userController.putPassword)
 
-
-
 module.exports = router

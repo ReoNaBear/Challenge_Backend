@@ -1,6 +1,6 @@
 const recordServices = require('../services/record-services')
 const recordController = {
-  //使用者打卡
+  // 使用者打卡
   postPunchRecord: (req, res, next) => {
     recordServices.postPunchRecord(req, (err, data) =>
       err ? next(err) : res.status(200).json({ status: 'success', data }))
@@ -12,6 +12,6 @@ const recordController = {
   getMonthRecord: (req, res, next) => {
     recordServices.getMonthRecord(req, (err, data) =>
       err ? next(err) : res.status(200).json({ status: 'success', data }))
-  },
+  }
 }
 module.exports = recordController

@@ -7,5 +7,4 @@ router.use(authenticated, authenticatedAdmin)
 
 router.get('/update', dateController.updateDateData)
 
-
 module.exports = router
