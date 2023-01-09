@@ -1,4 +1,4 @@
-const { User, QRcodeAuth, PresentRecord } = require('../models')
+const { User, QRcodeAuth, PresentRecord, LoginRecord } = require('../models')
 const helper = require('../_helpers')
 const crypto = require('crypto')
 
@@ -76,6 +76,12 @@ const adminServices = {
       let result = await user.update({
         isBanned
       })
+      const errorRecords = LoginRecord.findAll({
+        where: { userId: user.userId, isLogin: 0 }, attributes: ['id']
+      })
+      if (errorRecords) {
+        await LoginRecord.destroy({ where: { userId: user.userId, isLogin: 0 } })
+      }
       result = result.toJSON()
       return cb(null, result)
     } catch (err) {

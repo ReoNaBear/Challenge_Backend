@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs')
 const helper = require('../_helpers')
 const jwt = require('jsonwebtoken')
 const moment = require('moment')
+const sendMailer = require('../config/mail')
 
 const userServices = {
   signIn: async (req, cb) => {
@@ -27,13 +28,17 @@ const userServices = {
         const errorRecords = await LoginRecord.findAll({
           where: { userId: user.userId, isLogin: 0 }
         })
-        if (errorRecords.length >= 4) {
+        if (errorRecords.length >= 5) {
           const banUser = await User.findOne({
             where: { userAuthId: userAuth.userAuthId }
           })
           await banUser.update({
             isBanned: 1
           })
+          const Admin = await User.findOne({
+            where: { isAdmin: 1 }
+          })
+          await sendMailer.sendBanned(Admin.userEmail, banUser.userName)
           throw new Error('User has been Banned!')
         } else {
           throw new Error(`Incorrect Account or Password! Error Time ${
