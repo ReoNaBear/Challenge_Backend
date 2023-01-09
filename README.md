@@ -6,7 +6,7 @@
 [![Framework](https://img.shields.io/badge/express-4.18.2-yellow.svg)](https://www.npmjs.com/package/express)
 [![Database](https://img.shields.io/badge/Database-MYSQL-yellow.svg)](https://www.npmjs.com/package/mysql)
 
-API URL: https://adams-bear.com
+API URL: https://api.adams-bear.com
 | <a href="https://flossy-rudbeckia-3b4.notion.site/api-list-1b94b6be31a242bf809d24a10acfe39d">API文件</a>
   
   <a href="https://github.com/ReoNaBear/Challenge_Frontend">前端repo</a> 
