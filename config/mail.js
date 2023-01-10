@@ -26,7 +26,6 @@ const sendMailer = {
       // 嵌入 html 的內文
       html: `<p>${userName}被封鎖了</p>`
     }
-    console.log(options)
 
     // 發送信件方法
     transporter.sendMail(options, function (error, info) {

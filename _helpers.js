@@ -41,7 +41,6 @@ function getPreviosday () {
   const offWorkDays = JSON.parse(data)
   while (offWorkDays.find((x) => x.date === date)) {
     date = moment(date).subtract(1, 'days').format(dateFormat)
-    console.log(date)
   }
   return date
 }
@@ -53,7 +52,6 @@ function getWorkOffDay () {
   const data = fs.readFileSync(`./config/${year}.json`, 'utf8')
   const offWorkDays = JSON.parse(data)
   const days = offWorkDays.filter((x) => x.date.substring(0, 7) === month)
-  console.log(days)
   return days
 }
 

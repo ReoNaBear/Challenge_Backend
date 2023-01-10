@@ -18,15 +18,15 @@ const dateServices = {
         }
       }
       saveData = JSON.stringify(saveData)
-
+      let msg = ''
       fs.writeFile(`./config/${year}.json`, saveData, function (err) {
         if (err) {
-          console.log(err)
           throw new Error('Date Update Error! Please contact your administrator')
         } else {
-          console.log('Write operation complete.')
+          msg = 'Write operation complete.'
         }
       })
+      cb(null, msg)
     } catch (err) {
       cb(err)
     }
