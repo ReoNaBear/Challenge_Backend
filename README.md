@@ -6,11 +6,11 @@
 [![Framework](https://img.shields.io/badge/express-4.18.2-yellow.svg)](https://www.npmjs.com/package/express)
 [![Database](https://img.shields.io/badge/Database-MYSQL-yellow.svg)](https://www.npmjs.com/package/mysql)
 
-API URL: https://adams-bear.com
+API URL: https://api.adams-bear.com
 | <a href="https://flossy-rudbeckia-3b4.notion.site/api-list-1b94b6be31a242bf809d24a10acfe39d">API文件</a>
   
   <a href="https://github.com/ReoNaBear/Challenge_Frontend">前端repo</a> 
- | <a href="">demo</a> 
+ | <a href="https://d3rdy47yp5tkip.cloudfront.net/">demo</a> 
 ## 功能介紹
 
   * 提供使用者登入、登出及註冊帳號功能
@@ -42,6 +42,7 @@ git clone https://github.com/ReoNaBear/Challenge_Backend.git
 ```
 cd Challenge_Backend //切至專案資料夾
 npm install  //安裝套件
+(If error npm not found! please install latest node.js first)
 npm install nodemon   // 另行安裝nodemon
 ```
 ```
