@@ -156,7 +156,7 @@ const recordServices = {
       // 扣掉今天
       const today = helper.getToday()
       const month = helper.getMonth()
-      const totalDays = today.substring(9, 11) - 1
+      const totalDays = today.substring(8, 11) - 1
       const workOffDays = helper.getWorkOffDay()
       const count = workOffDays.filter((x) => moment(x.date).isBefore(today, 'day')).length
       const totalWorkDays = totalDays - count
